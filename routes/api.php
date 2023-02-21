@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CadastroPokemonController;
+use App\Http\Controllers\TesteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('login', [AuthController::class, 'login']);
 Route::post('registroPokemon', [CadastroPokemonController::class, 'store']);
+
+
+
+Route::get('testeget', [TesteController::class, 'testeget']);
+Route::post('testepost', [TesteController::class, 'testepost']);
+Route::post('testelogin', [TesteController::class, 'testelogin']);
 
 
 
