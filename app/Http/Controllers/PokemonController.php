@@ -29,7 +29,8 @@ class PokemonController extends Controller
         $data = $request->all();
 
         // Salva a imagem do Pokemon
-        $imagem = $request->file('image')->store('pokemons');
+        $path = 'public/teste/'.time().'.jpg';
+        Storage::put($path, base64_decode($request['image']));
 
         // Cria um novo Pokemon com os dados informados
         $pokemon = new Pokemon([
@@ -38,24 +39,21 @@ class PokemonController extends Controller
             'habilidade_1' => $data['habilidade_1'],
             'habilidade_2' => $data['habilidade_2'],
             'habilidade_3' => $data['habilidade_3'],
-            'image' => $imagem,
+            'image' => $path,
         ]);
 
         // Salva o Pokemon no banco de dados
         $pokemon->save();
 
         // Retorna a resposta
-        return response()->json([
-            'success' => 'true',
-            'message' => 'Pokemon cadastrado com sucesso',
-            'data' => $pokemon,
-        ]);
+        return response()->json(1);
     }
 
     public function pesquisaTipo(Request $request)
     {
-        $pokemons = Pokemon::select('nome','tipo')->where('tipo', $request->tipo)->get();
-        return response()->json($pokemons);
+        $pokemons = Pokemon::select('nome')->where('tipo', $request->tipo)->get();
+        $result['nomes'] = $pokemons->pluck('nome');
+        return response()->json($result);
     }
 
     public function pesquisaHabilidade(Request $request)

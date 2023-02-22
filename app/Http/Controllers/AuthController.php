@@ -8,13 +8,13 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        $user = User::where('email', $credentials['email'])->where('password', $credentials['password'])->first();
+        $credentials = $request->only('login', 'password');
+        $user = User::where('email', $credentials['login'])->where('password', $credentials['password'])->first();
 
         if ($user) {
-            return response()->json(['message' => 'Login realizado com sucesso']);
+            return response()->json(1);
         } else {
-            return response()->json(['message' => 'Credenciais inválidas'], 401);
+            return response()->json(0);
         }
     }
 }
