@@ -50,4 +50,16 @@ class PokemonController extends Controller
             'data' => $pokemon,
         ]);
     }
+
+    public function pesquisaTipo(Request $request)
+    {
+        $pokemons = Pokemon::select('nome','tipo')->where('tipo', $request->tipo)->get();
+        return response()->json($pokemons);
+    }
+
+    public function pesquisaHabilidade(Request $request)
+    {
+        $pokemons = Pokemon::select('nome','habilidade_1','habilidade_2','habilidade_3')->where('habilidade_1', $request->habilidade)->orWhere('habilidade_2', $request->habilidade)->orWhere('habilidade_3', $request->habilidade)->get();
+        return response()->json($pokemons);
+    }
 }
