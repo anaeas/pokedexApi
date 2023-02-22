@@ -6,6 +6,7 @@ use App\Models\Pokemon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CadastrarPokemonRequest;
+use Illuminate\Support\Facades\DB;
 
 class PokemonController extends Controller
 {
@@ -60,6 +61,31 @@ class PokemonController extends Controller
     public function pesquisaHabilidade(Request $request)
     {
         $pokemons = Pokemon::select('nome','habilidade_1','habilidade_2','habilidade_3')->where('habilidade_1', $request->habilidade)->orWhere('habilidade_2', $request->habilidade)->orWhere('habilidade_3', $request->habilidade)->get();
-        return response()->json($pokemons);
+        $result['pokemons'] = $pokemons->pluck('nome');
+        return response()->json($result);
+    }
+
+    public function quantPokemons()
+    {
+        $res = DB::select('SELECT COUNT(*) as quant FROM pokemon');
+        return response()->json($res[0]->quant);
+    }
+
+    public function top3tipos()
+    {
+        $res = DB::select('SELECT tipo, COUNT(*) as quant FROM pokemon GROUP BY tipo ORDER BY quant DESC LIMIT 3');
+        foreach ($res as $value) {
+            $result['tipos'][] = $value->tipo;
+        }
+        return response()->json($result);
+    }
+
+    public function top3habilidades()
+    {
+        $res = DB::select('SELECT habilidade, COUNT(*) as quant FROM (SELECT habilidade_1 as habilidade FROM pokemon UNION ALL SELECT habilidade_2 FROM pokemon UNION ALL SELECT habilidade_3 FROM pokemon) as result WHERE habilidade is not NULL GROUP BY habilidade ORDER BY quant DESC LIMIT 3');
+        foreach ($res as $value) {
+            $result['habilidades'][] = $value->habilidade;
+        }
+        return response()->json($result);
     }
 }

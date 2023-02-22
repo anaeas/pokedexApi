@@ -22,6 +22,9 @@ Route::get('listaPokemon', [PokemonController::class, 'index']);
 Route::post('registroPokemon', [PokemonController::class, 'cadastrar']);
 Route::get('pesquisatipo', [PokemonController::class, 'pesquisaTipo']);
 Route::get('pesquisahabilidade', [PokemonController::class, 'pesquisaHabilidade']);
+Route::get('quantpokemons', [PokemonController::class, 'quantPokemons']);
+Route::get('top3tipos', [PokemonController::class, 'top3tipos']);
+Route::get('top3habilidades', [PokemonController::class, 'top3habilidades']);
 
 
 
