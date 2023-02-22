@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Str;
 
 class CadastrarPokemonRequest extends FormRequest
 {
@@ -19,6 +20,13 @@ class CadastrarPokemonRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'nome' => Str::ucfirst(Str::lower($this->nome)),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,17 +37,12 @@ class CadastrarPokemonRequest extends FormRequest
         return [
             'nome' => 'required|unique:pokemon|max:255',
             'tipo' => 'required',
-            'habilidade_1' => 'required',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
-            // 'message'   => 'Validation errors',
-            // 'data'      => $validator->errors()
-        ]));
+        throw new HttpResponseException(response()->json(0));
     }
 
     public function messages()
@@ -48,7 +51,6 @@ class CadastrarPokemonRequest extends FormRequest
             'nome.required' => 'Nome é obrigatório',
             'nome.unique' => 'Nome já existe',
             'tipo.required' => 'Tipo é obrigatório',
-            'habilidade_1.required' => 'Habilidade 1 é obrigatória'
         ];
     }
 }

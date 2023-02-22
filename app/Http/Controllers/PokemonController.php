@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CadastrarPokemonRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PokemonController extends Controller
 {
@@ -31,6 +32,10 @@ class PokemonController extends Controller
         // Salva a imagem do Pokemon
         $path = 'public/teste/'.time().'.jpg';
         Storage::put($path, base64_decode($request['image']));
+
+        $data['habilidade_1'] = ($data['habilidade_1'] == 'Selecione uma habilidade') ? NULL : $data['habilidade_1'];
+        $data['habilidade_2'] = ($data['habilidade_2'] == 'Selecione uma habilidade') ? NULL : $data['habilidade_2'];
+        $data['habilidade_3'] = ($data['habilidade_3'] == 'Selecione uma habilidade') ? NULL : $data['habilidade_3'];
 
         // Cria um novo Pokemon com os dados informados
         $pokemon = new Pokemon([

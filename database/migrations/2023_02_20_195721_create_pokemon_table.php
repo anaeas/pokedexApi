@@ -17,7 +17,7 @@ class CreatePokemonTable extends Migration
             $table->id();
             $table->string('nome')->unique();
             $table->string('tipo');
-            $table->string('habilidade_1');
+            $table->string('habilidade_1')->nullable();
             $table->string('habilidade_2')->nullable();
             $table->string('habilidade_3')->nullable();
             $table->string('image');
