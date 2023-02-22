@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::get('listaPokemon', [PokemonController::class, 'index']);
-Route::post('registroPokemon', [PokemonController::class, 'store']);
+Route::post('registroPokemon', [PokemonController::class, 'cadastrar']);
 
 
 

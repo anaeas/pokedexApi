@@ -17,6 +17,6 @@ use App\Http\Controllers\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return 'Hello World';
-});
+// Route::get('/', function () {
+//     return 'Hello World';
+// });

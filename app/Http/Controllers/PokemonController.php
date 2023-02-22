@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CadastrarPokemonRequest;
 
 class PokemonController extends Controller
 {
@@ -15,14 +15,14 @@ class PokemonController extends Controller
 
         //codifica as imagens em base64
         foreach ($pokemons as $value) {
-            $value->image = base64_encode(Storage::get($pokemons[0]->image));
+            $value->image = base64_encode(Storage::get($value->image));
         }
 
         return response()->json($pokemons);
     }
 
 
-    public function store(Request $request)
+    public function cadastrar(CadastrarPokemonRequest $request)
     {
         // Recupera os dados do formulário
         $data = $request->all();
@@ -45,6 +45,7 @@ class PokemonController extends Controller
 
         // Retorna a resposta
         return response()->json([
+            'success' => 'true',
             'message' => 'Pokemon cadastrado com sucesso',
             'data' => $pokemon,
         ]);
