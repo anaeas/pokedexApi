@@ -20,8 +20,3 @@ use App\Http\Controllers\User;
 Route::get('/', function () {
     return 'Hello World';
 });
-Route::get('cadastro', [CadastroController::class, 'cadastroDoTreinador']);
-Route::post('cadastro', [CadastroController::class, 'salvarCadastro']);
-
-
-Route::get('pokemons', [PokemonController::class, 'index']);

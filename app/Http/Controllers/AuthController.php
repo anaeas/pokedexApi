@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
@@ -9,14 +10,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $user = User::where('email', $credentials['email'])->where('password', $credentials['password'])->first();
 
-        if (Auth::attempt($credentials)) {
-            // Autenticação bem-sucedida
+        if ($user) {
             return response()->json(['message' => 'Login realizado com sucesso']);
         } else {
-            // Autenticação falhou
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
-
     }
 }

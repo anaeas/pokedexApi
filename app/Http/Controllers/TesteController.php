@@ -29,4 +29,13 @@ class TesteController extends Controller
         return response()->json($request->all());
     }
 
+    public function testelista()
+    {
+        $array['pessoas'][] = 'fulano';
+        $array['pessoas'][] = 'ciclano';
+
+
+        return response()->json($array);
+    }
+
 }
