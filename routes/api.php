@@ -26,6 +26,9 @@ Route::get('quantpokemons', [PokemonController::class, 'quantPokemons']);
 Route::get('top3tipos', [PokemonController::class, 'top3tipos']);
 Route::get('top3habilidades', [PokemonController::class, 'top3habilidades']);
 
+Route::get('listaNomeImagem', [PokemonController::class, 'nomesImagens']);
+Route::get('detalhesPokemon', [PokemonController::class, 'detalhes']);
+
 
 
 Route::get('testeget', [TesteController::class, 'testeget']);

@@ -23,6 +23,25 @@ class PokemonController extends Controller
         return response()->json($pokemons);
     }
 
+    public function nomesImagens()
+    {
+        $pokemons = Pokemon::all(['id','nome','image']);
+        $result['nomes'] = $pokemons->pluck('nome');
+        foreach ($pokemons as $value) {
+            $value->image = base64_encode(Storage::get($value->image));
+        }
+        $result['imagens'] = $pokemons->pluck('image');
+        $result['ids'] = $pokemons->pluck('id');
+        return response()->json($result);
+    }
+
+    public function detalhes(Request $request)
+    {
+        $pok = Pokemon::find($request->id);
+        $pok->image = base64_encode(Storage::get($pok->image));
+        return response()->json($pok);
+    }
+
 
     public function cadastrar(CadastrarPokemonRequest $request)
     {
@@ -30,7 +49,7 @@ class PokemonController extends Controller
         $data = $request->all();
 
         // Salva a imagem do Pokemon
-        $path = 'public/teste/'.time().'.jpg';
+        $path = 'public/teste/' . time() . '.jpg';
         Storage::put($path, base64_decode($request['image']));
 
         $data['habilidade_1'] = ($data['habilidade_1'] == 'Selecione uma habilidade') ? NULL : $data['habilidade_1'];
@@ -63,7 +82,7 @@ class PokemonController extends Controller
 
     public function pesquisaHabilidade(Request $request)
     {
-        $pokemons = Pokemon::select('nome','habilidade_1','habilidade_2','habilidade_3')->where('habilidade_1', $request->habilidade)->orWhere('habilidade_2', $request->habilidade)->orWhere('habilidade_3', $request->habilidade)->get();
+        $pokemons = Pokemon::select('nome', 'habilidade_1', 'habilidade_2', 'habilidade_3')->where('habilidade_1', $request->habilidade)->orWhere('habilidade_2', $request->habilidade)->orWhere('habilidade_3', $request->habilidade)->get();
         $result['pokemons'] = $pokemons->pluck('nome');
         return response()->json($result);
     }
